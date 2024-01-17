@@ -1,6 +1,5 @@
-#include <XInput.h>
-#include <Arduino.h>
-#include "Configuration.h"
+#include "lib/XInput.h"
+#include "Configurations/Configuration.h"
 
 void setup() {
 
