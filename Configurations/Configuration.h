@@ -1,6 +1,13 @@
 #ifndef CONFIGURATION_H
 #define CONFIGURATION_H
 
+// Comment out the following line to disable the navigation buttons
+#define NAV_BUTTONS
+#ifdef NAV_BUTTONS
+    #define START 21
+    #define SELECT 20
+#endif
+
 // Comment out the following line to disable the whammy feature
 #define ENABLE_WHAMMY
 #ifdef ENABLE_WHAMMY
@@ -32,14 +39,10 @@
 #endif
 
 // Strum
-#define STRUM_UP 7
-#define STRUM_DOWN 8
-
-// Comment out the following line to disable the navigation buttons
-#define NAV_BUTTONS
-#ifdef NAV_BUTTONS
-    #define START 21
-    #define SELECT 20
+#define ENABLE_STRUM
+#ifdef ENABLE_STRUM
+    #define STRUM_UP 7
+    #define STRUM_DOWN 8
 #endif
 
 // Comment out the following line to disable the Menu button

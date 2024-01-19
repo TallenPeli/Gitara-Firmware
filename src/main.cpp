@@ -23,8 +23,10 @@ void setup() {
     pinMode(WHITE_3, INPUT);
   #endif
 
-  pinMode(STRUM_UP, INPUT);
-  pinMode(STRUM_DOWN, INPUT);
+  #ifdef ENABLE_STRUM
+    pinMode(STRUM_UP, INPUT);
+    pinMode(STRUM_DOWN, INPUT);
+  #endif
 
   #ifdef NAV_BUTTONS
     pinMode(START, INPUT);
@@ -34,7 +36,7 @@ void setup() {
   #ifdef SUPER_BUTTON
     pinMode(SUPER_BUTTON, INPUT);
   #endif
-  
+
   #ifdef ENABLE_DPAD
     pinMode(D_UP, INPUT);
     pinMode(D_DOWN, INPUT);
@@ -43,7 +45,8 @@ void setup() {
   #endif
 }
 
-void loop(){
+// Function to get get the digital button presses
+void processDigitalButtons(){
 
   // Coloured Frets
   #ifndef IS_SIX_FRET
@@ -64,14 +67,18 @@ void loop(){
     }
   #endif
 
-  // Strum Buttons
-  if(digitalRead(STRUM_DOWN) == HIGH){
-    XInput.press(DPAD_DOWN);
-  }
-  if(digitalRead(STRUM_UP) == HIGH){
-    XInput.press(DPAD_UP);
-  }
+  // Strum buttons
+  #ifdef ENABLE_STRUM
+    // Strum Buttons
+    if(digitalRead(STRUM_DOWN) == HIGH){
+      XInput.press(DPAD_DOWN);
+    }
+    if(digitalRead(STRUM_UP) == HIGH){
+      XInput.press(DPAD_UP);
+    }
+  #endif
 
+  // Navigation buttons (start/select)
   #ifdef NAV_BUTTONS
     // Start and Select
     if(digitalRead(START) == HIGH){
@@ -97,6 +104,18 @@ void loop(){
       XInput.press(DPAD_RIGHT);
     }
   #endif
+}
+
+void processAnalogAxis(){
+
+}
+
+void loop(){
+
+  XInput.releaseAll();
+
+  processDigitalButtons();
+  processAnalogAxis();
 
   XInput.send();
 }
