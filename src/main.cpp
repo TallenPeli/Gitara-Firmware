@@ -1,5 +1,5 @@
-#include "lib/XInput.h"
-#include "Configurations/Configuration.h"
+#include <XInput.h>
+#include "Configuration.h"
 
 void setup() {
 
