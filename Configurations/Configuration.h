@@ -1,7 +1,7 @@
 #ifndef CONFIGURATION_H
 #define CONFIGURATION_H
 
-// Uncomment the following line to enable the whammy feature
+// Comment out the following line to disable the whammy feature
 #define ENABLE_WHAMMY
 #ifdef ENABLE_WHAMMY
     // Define the pin for the whammy feature
@@ -35,9 +35,14 @@
 #define STRUM_UP 7
 #define STRUM_DOWN 8
 
-// Menu buttons
-#define START 21
-#define SELECT 20
+// Comment out the following line to disable the navigation buttons
+#define NAV_BUTTONS
+#ifdef NAV_BUTTONS
+    #define START 21
+    #define SELECT 20
+#endif
+
+// Comment out the following line to disable the Menu button
 #define SUPER_BUTTON 19
 
 // Uncomment the following line to enable the D-pad buttons

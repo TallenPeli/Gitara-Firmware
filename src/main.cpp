@@ -2,9 +2,9 @@
 #include "Configuration.h"
 
 void setup() {
-
   // Start the XInput function
   XInput.begin();
+  XInput.setAutoSend(false);
 
   // Initialize the Arduino Pins
 
@@ -25,10 +25,16 @@ void setup() {
 
   pinMode(STRUM_UP, INPUT);
   pinMode(STRUM_DOWN, INPUT);
-  pinMode(START, INPUT);
-  pinMode(SELECT, INPUT);
-  pinMode(SUPER_BUTTON, INPUT);
 
+  #ifdef NAV_BUTTONS
+    pinMode(START, INPUT);
+    pinMode(SELECT, INPUT);
+  #endif
+
+  #ifdef SUPER_BUTTON
+    pinMode(SUPER_BUTTON, INPUT);
+  #endif
+  
   #ifdef ENABLE_DPAD
     pinMode(D_UP, INPUT);
     pinMode(D_DOWN, INPUT);
@@ -42,22 +48,40 @@ void loop(){
   // Coloured Frets
   #ifndef IS_SIX_FRET
     if(digitalRead(GREEN) == HIGH){
-      XInput.press(TRIGGER_LEFT);
-    }
-    if(digitalRead(RED) == HIGH){
-      XInput.press(BUTTON_LB);
-    }
-    if(digitalRead(YELLOW) == HIGH){
-      XInput.press(TRIGGER_RIGHT);
-    }
-    if(digitalRead(BLUE) == HIGH){
-      XInput.press(BUTTON_RB);
-    }
-    if(digitalRead(ORANGE) == HIGH){
       XInput.press(BUTTON_A);
     }
+    if(digitalRead(RED) == HIGH){
+      XInput.press(BUTTON_B);
+    }
+    if(digitalRead(YELLOW) == HIGH){
+      XInput.press(BUTTON_Y);
+    }
+    if(digitalRead(BLUE) == HIGH){
+      XInput.press(BUTTON_X);
+    }
+    if(digitalRead(ORANGE) == HIGH){
+      XInput.press(BUTTON_LB);
+    }
   #endif
-  
+
+  // Strum Buttons
+  if(digitalRead(STRUM_DOWN) == HIGH){
+    XInput.press(DPAD_DOWN);
+  }
+  if(digitalRead(STRUM_UP) == HIGH){
+    XInput.press(DPAD_UP);
+  }
+
+  #ifdef NAV_BUTTONS
+    // Start and Select
+    if(digitalRead(START) == HIGH){
+      XInput.press(BUTTON_START);
+    }
+    if(digitalRead(SELECT) == HIGH){
+      XInput.press(BUTTON_BACK);
+    }
+  #endif
+
   // DPAD
   #ifdef ENABLE_DPAD    
     if(digitalRead(D_UP) == HIGH){
@@ -74,6 +98,5 @@ void loop(){
     }
   #endif
 
-
-
+  XInput.send();
 }
