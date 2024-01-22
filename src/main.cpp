@@ -4,7 +4,6 @@
 void setup() {
   // Start the XInput function
   XInput.begin();
-  XInput.setAutoSend(false);
 
   // Initialize the Arduino Pins
 
@@ -43,6 +42,7 @@ void setup() {
     pinMode(D_LEFT, INPUT);
     pinMode(D_RIGHT, INPUT);
   #endif
+
 }
 
 // Function to get get the digital button presses
@@ -50,72 +50,62 @@ void processDigitalButtons(){
 
   // Coloured Frets
   #ifndef IS_SIX_FRET
-    if(digitalRead(GREEN) == HIGH){
-      XInput.press(BUTTON_A);
-    }
-    if(digitalRead(RED) == HIGH){
-      XInput.press(BUTTON_B);
-    }
-    if(digitalRead(YELLOW) == HIGH){
-      XInput.press(BUTTON_Y);
-    }
-    if(digitalRead(BLUE) == HIGH){
-      XInput.press(BUTTON_X);
-    }
-    if(digitalRead(ORANGE) == HIGH){
-      XInput.press(BUTTON_LB);
-    }
+
+    XInput.press(!digitalRead(GREEN) ? BUTTON_A : 0);
+    XInput.press(!digitalRead(RED) ? BUTTON_B : 0);
+    XInput.press(!digitalRead(YELLOW) ? BUTTON_Y : 0);
+    XInput.press(!digitalRead(BLUE) ? BUTTON_X : 0);
+    XInput.press(!digitalRead(ORANGE) ? BUTTON_LB : 0);
+
+  #else
+
+    XInput.press(!digitalRead(BLACK_1) ? BUTTON_A : 0);
+    XInput.press(!digitalRead(BLACK_2) ? BUTTON_B : 0);
+    XInput.press(!digitalRead(BLACK_3) ? BUTTON_Y : 0);
+    XInput.press(!digitalRead(WHITE_1) ? BUTTON_X : 0);
+    XInput.press(!digitalRead(WHITE_2) ? BUTTON_LB : 0);
+    XInput.press(!digitalRead(WHITE_3) ? BUTTON_RB : 0);
+
   #endif
 
   // Strum buttons
   #ifdef ENABLE_STRUM
+
     // Strum Buttons
-    if(digitalRead(STRUM_DOWN) == HIGH){
-      XInput.press(DPAD_DOWN);
-    }
-    if(digitalRead(STRUM_UP) == HIGH){
-      XInput.press(DPAD_UP);
-    }
+    XInput.press(!digitalRead(STRUM_DOWN) ? DPAD_DOWN : 0);
+    XInput.press(!digitalRead(STRUM_UP) ? DPAD_UP : 0);
+
   #endif
 
   // Navigation buttons (start/select)
   #ifdef NAV_BUTTONS
-    // Start and Select
-    if(digitalRead(START) == HIGH){
-      XInput.press(BUTTON_START);
-    }
-    if(digitalRead(SELECT) == HIGH){
-      XInput.press(BUTTON_BACK);
-    }
+
+    XInput.press(!digitalRead(START) ? BUTTON_START : 0);
+    XInput.press(!digitalRead(SELECT) ? BUTTON_SELECT : 0);
+
   #endif
 
   // DPAD
-  #ifdef ENABLE_DPAD    
-    if(digitalRead(D_UP) == HIGH){
-      XInput.press(DPAD_UP);
-    }
-    if(digitalRead(D_DOWN) == HIGH){
-      XInput.press(DPAD_DOWN);
-    }
-    if(digitalRead(D_LEFT) == HIGH){
-      XInput.press(DPAD_LEFT);
-    }
-    if(digitalRead(D_RIGHT) == HIGH){
-      XInput.press(DPAD_RIGHT);
-    }
+  #ifdef ENABLE_DPAD
+  
+    XInput.press(!digitalRead(D_UP) ? DPAD_UP : 0);
+    XInput.press(!digitalRead(D_DOWN) ? DPAD_DOWN : 0);
+    XInput.press(!digitalRead(D_LEFT) ? DPAD_LEFT : 0);
+    XInput.press(!digitalRead(D_RIGHT) ? DPAD_RIGHT : 0);
+
   #endif
-}
-
-void processAnalogAxis(){
 
 }
+
+/*void processAnalogAxis(){
+  XInput.setJoystickY(JOY_RIGHT, analogRead(WHAMMY_PIN), false);
+}*/
 
 void loop(){
 
   XInput.releaseAll();
 
   processDigitalButtons();
-  processAnalogAxis();
+  //processAnalogAxis();
 
-  XInput.send();
 }

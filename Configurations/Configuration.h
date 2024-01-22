@@ -12,14 +12,14 @@
 #define ENABLE_WHAMMY
 #ifdef ENABLE_WHAMMY
     // Define the pin for the whammy feature
-    #define WHAMMY_PIN 9
+    #define WHAMMY_PIN A9
 #endif
 
 // Analog pins
 #define TILT 10
 
 // Uncomment the following line to enable the six-fret configuration
-// #define IS_SIX_FRET
+#define IS_SIX_FRET
 #ifndef IS_SIX_FRET
     // Color frets for six-fret configuration
     #define GREEN 2
@@ -35,7 +35,7 @@
     #define BLACK_3 4
     #define WHITE_1 5
     #define WHITE_2 6
-    #define WHITE_3 7
+    #define WHITE_3 19
 #endif
 
 // Strum
