@@ -1,4 +1,4 @@
-# FretForge-Firmware
+# Gitara-Firmware
 
 Fully customizable XInput-based firmware for Arduino based guitar hero guitar mods
 
